@@ -1,6 +1,8 @@
 /*This is where you write the code you want to run*/
 #include "Arduino.h"
-#include "ligthSensor.h"
+#include <lightSensor.h>
+
+using namespace LightSensor;
 
 // Read transducer data
 int readLDRData(int analogPort)
@@ -13,6 +15,6 @@ int setBrightness(int transducerValue, int minADC, int maxADC)
 {
   // map current LDR data ADC range to the 255-0 scale Arduino can use to
   // output analog volage
-  int brightness = map(transducerValue,minADC,maxADC, 255,0);
+  int brightness = map(transducerValue, minADC, maxADC, 255, 0);
   return brightness;
 }
