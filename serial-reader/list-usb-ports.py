@@ -5,7 +5,6 @@ https://stackoverflow.com/questions/12090503/listing-available-com-ports-with-py
 
 import sys
 import glob
-import serial
 
 
 def serial_ports():
@@ -26,15 +25,16 @@ def serial_ports():
     else:
         raise EnvironmentError('Unsupported platform')
 
-    result = []
-    for port in ports:
-        try:
-            s = serial.Serial(port)
-            s.close()
-            result.append(port)
-        except (OSError, serial.SerialException):
-            pass
-    return result
+    print(ports)
+    #result = []
+    #for port in ports:
+        #try:
+            #s = serial.Serial(port)
+            #s.close()
+            #result.append(port)
+        #except (OSError, serial.SerialException):
+            #pass
+    #return result
 
 
 if __name__ == '__main__':
