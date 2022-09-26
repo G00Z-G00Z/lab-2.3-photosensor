@@ -3,6 +3,7 @@
 #include <Button.h>
 #include <Led.h>
 #include <RBD_LightSensor.h>
+#include <LiquidCrystal.h>
 
 #define PIN_LED_PWM 10
 #define BTN_PIN 10
@@ -22,18 +23,21 @@ const int rs = 30,
           d6 = 34,
           d7 = 35;
 
-Display::CustomDisplay lcd(rs, en, d4, d5, d6, d7);
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 void setup()
 {
   Serial.begin(9600);
   Serial.println("Hello world");
+
+  led.on();
+  lcd.begin(16, 2);
+  lcd.home();
+  lcd.print("Hola");
 }
 
 void loop()
 {
-
   static int i = 0;
-
-  Serial.println("Hello x " + String(i));
+  Serial.println("Hello x " + String(i++));
 }
