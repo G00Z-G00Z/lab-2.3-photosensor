@@ -10,8 +10,8 @@ generates a csv file with the data of a sensor
 1. Make an enviroment and install the requirements using the following commands:
 
 ```bash
-python3 -m venv arduino-serial
-source arduino-serial/bin/activate
+python3 -m venv arduino-serial-enviroment
+source arduino-serial-enviroment/bin/activate
 pip3 --disable-pip-version-check --no-cache-dir install -r requirements.txt
 ```
 
