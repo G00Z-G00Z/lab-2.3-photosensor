@@ -1,6 +1,8 @@
 #include <Button.h>
 #include <Arduino.h>
 
+using namespace Buttons;
+
 Button::Button()
 {
 }
