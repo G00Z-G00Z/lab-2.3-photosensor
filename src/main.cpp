@@ -6,8 +6,8 @@
 #include <LiquidCrystal.h>
 
 #define PIN_LED_PWM 10
-#define BTN_PIN 10
-#define PHOTORESISTOR_PIN 10
+#define BTN_PIN 29
+#define PHOTORESISTOR_PIN A0
 
 Buttons::Button btn(BTN_PIN);
 
@@ -30,14 +30,24 @@ void setup()
   Serial.begin(9600);
   Serial.println("Hello world");
 
-  led.on();
+  led.off();
   lcd.begin(16, 2);
   lcd.home();
   lcd.print("Hola");
+
+  phoresistor.setFloor(980);
+  phoresistor.setCeiling(1020);
 }
 
 void loop()
 {
-  static int i = 0;
-  Serial.println("Hello x " + String(i++));
+
+  float value = phoresistor.getValue();
+
+  lcd.clear();
+  lcd.home();
+  lcd.print(String(value, 2));
+  lcd.setCursor(1, 1);
+  lcd.print(String(map(value, 0, 1023, 0, 5)) + "V");
+  delay(1000);
 }
