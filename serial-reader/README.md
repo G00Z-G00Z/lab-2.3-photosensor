@@ -11,7 +11,7 @@ For detecting the ports use:
 python -m serial.tools.list_ports -v
 ```
 
-Then, put the name of the port in a arduino-port.txt file
+Then, put the name of the port in a arduino.port.txt file
 
 Then run the main program
 
