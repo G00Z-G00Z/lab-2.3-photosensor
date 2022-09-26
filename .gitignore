@@ -16,3 +16,5 @@ proteus/*
 
 
 serial-reader/*enviroment/
+
+serial-reader/arduino.port.txt
