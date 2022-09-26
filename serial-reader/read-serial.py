@@ -1,24 +1,33 @@
-import serial
-import serial.tools.list_ports
+import sys
 
-SERIAL_PORT = "COM4"
+PORT_FILE_NAME = "arduino.port.txt"
 
-def list_serial_ports():
-    print(list(serial.tools.list_ports.comports()))
+
+def exit_error():
+    sys.exit(1)
+
+def get_port_name_from_text_file():
+    """
+    Gets the port name from the file
+    """
+
+    try:
+        with open(PORT_FILE_NAME, "r") as f:
+            port = f.readline()
+            
+        return port
     
+    except FileNotFoundError: 
+        print(f"{PORT_FILE_NAME} was not found")
+        print(f"Please make a file named {PORT_FILE_NAME} and put the port in which the arduino is connected")
+        exit_error()
 
+        
 
 def main():
-    
-    list_serial_ports()
-
-    # with serial.Serial(SERIAL_PORT, 9600, timeout=1) as ser:
-        # line = ser.readline()
-        # print(line)
-
-
-
-
+    port_name = get_port_name_from_text_file()
+    print(f"Your selected port was {port_name}")
+    pass
 
 if __name__ == '__main__':
     main()
