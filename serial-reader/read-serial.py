@@ -1,4 +1,5 @@
 import sys
+import time
 import serial
 
 PORT_FILE_NAME = "arduino.port.txt"
@@ -25,20 +26,29 @@ def get_port_name_from_text_file() -> None:
         exit_error()
 
 def read_port(port_name : str) -> None: 
+    print("Ports")
 
     try:
-        with serial.Serial(port_name, BAUD_RATE, timeout=0) as ser:
-            for i in range(10):
-                byte_ = ser.readline()
+        ser =  serial.Serial(port_name, BAUD_RATE, timeout=0)
+        time.sleep(2)
+        for _ in range(100):
+            byte_ = ser.readline()
+            if not byte_:
+                continue
+            try: 
                 string = byte_.decode()
                 stripped = string.strip()
-                print(byte_)
                 print(string)
                 print(stripped)
+
+            except UnicodeDecodeError:
+                print(f'Couldn decode {byte_}')
     except serial.SerialException:
         print("No se pudo leer el serial")
         print("Quiza no esta conectado a la compu")
         exit_error()
+    finally:
+        ser.close()
         
 
 def main():
