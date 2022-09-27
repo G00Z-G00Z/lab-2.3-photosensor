@@ -4,16 +4,20 @@
 #include <Led.h>
 #include <RBD_LightSensor.h>
 #include <DataCollector.h>
+#include <FuzzyLogic.h>
 
 #define PIN_LED_PWM 10
 #define BTN_PIN 29
 #define PHOTORESISTOR_PIN A0
 
+#define PHOTORESISTOR_FLOOR 0
+#define PHOTORESISTOR_CEILING 1023
+
 Buttons::Button btn(BTN_PIN);
 
 Leds::LedPWM led(PIN_LED_PWM);
 
-RBD::LightSensor phoresistor(PHOTORESISTOR_PIN);
+RBD::LightSensor photoresitor(PHOTORESISTOR_PIN);
 
 // Pins del lcd
 const int rs = 30,
@@ -25,13 +29,21 @@ const int rs = 30,
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
+FuzzyLogic::AmbientLightClass ambientLightIdentifiers[4] = {
+    FuzzyLogic::AmbientLightClass("Dark", 0, 10),
+    FuzzyLogic::AmbientLightClass("Dim", 0, 10),
+    FuzzyLogic::AmbientLightClass("Bright", 0, 10),
+    FuzzyLogic::AmbientLightClass("Blinding", 0, 10)};
+
+FuzzyLogic::AmbientLightClassifier classifier(ambientLightIdentifiers, 4u);
+
 void collectData()
 {
 
   if (!btn.wasPressed())
     return;
 
-  DataCollector::get_all_data(phoresistor, btn, lcd, 0, 31);
+  DataCollector::get_all_data(photoresitor, btn, lcd, 0, 31);
   lcd.clear();
   lcd.home();
   lcd.print("Terminado !!");
@@ -46,8 +58,8 @@ void setup()
   led.off();
   lcd.begin(16, 2);
   lcd.home();
-  // phoresistor.setFloor(980);
-  // phoresistor.setCeiling(1020);
+  photoresitor.setFloor(PHOTORESISTOR_FLOOR);
+  photoresitor.setCeiling(PHOTORESISTOR_CEILING);
   DataCollector::print_labels();
 }
 
