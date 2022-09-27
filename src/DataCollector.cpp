@@ -5,12 +5,20 @@ static const float reference_voltage = 5.0f;
 
 using namespace DataCollector;
 
-void DataCollector::print_labels()
+float DataCollector::rawAnalog2voltage(int rawValue)
+{
+
+    float percent = (float)rawValue / 1023.000f;
+
+    return percent * reference_voltage;
+}
+
+void DataCollector::printLabels()
 {
     Serial.println("distance,voltage");
 }
 
-void DataCollector::print_serial_data(int distance_cm, RBD::LightSensor &sensor)
+void DataCollector::printSerialData(int distance_cm, RBD::LightSensor &sensor)
 {
 
     float raw_valuee = sensor.getRawValue();
@@ -22,12 +30,12 @@ void DataCollector::print_serial_data(int distance_cm, RBD::LightSensor &sensor)
     Serial.println(String(distance_cm) + "," + String(voltage, 5));
 }
 
-void DataCollector::get_all_data(RBD::LightSensor &sensor, Buttons::Button &btn, LiquidCrystal &lcd, int min_cm, int max_cm, int step = 1, bool printLabels = false)
+void DataCollector::getSamples(RBD::LightSensor &sensor, Buttons::Button &btn, LiquidCrystal &lcd, int min_cm, int max_cm, int step = 1, bool printLabels = false)
 {
     using namespace DataCollector;
 
     if (printLabels)
-        print_labels();
+        DataCollector::printLabels();
 
     for (size_t current_cm = min_cm; current_cm < max_cm; current_cm++)
     {
@@ -39,6 +47,6 @@ void DataCollector::get_all_data(RBD::LightSensor &sensor, Buttons::Button &btn,
         while (!btn.wasPressed())
         {
         }
-        print_serial_data(current_cm, sensor);
+        printSerialData(current_cm, sensor);
     }
 }
