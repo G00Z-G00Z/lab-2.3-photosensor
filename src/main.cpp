@@ -42,13 +42,10 @@ void collectData()
 void setup()
 {
   Serial.begin(9600);
-  Serial.println("Hello world");
 
   led.off();
   lcd.begin(16, 2);
   lcd.home();
-  lcd.print("Hola");
-
   // phoresistor.setFloor(980);
   // phoresistor.setCeiling(1020);
   DataCollector::print_labels();
