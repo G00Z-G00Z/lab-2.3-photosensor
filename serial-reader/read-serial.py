@@ -27,18 +27,19 @@ def get_port_name_from_text_file() -> None:
         exit_error()
 
 def read_port(port_name : str) -> None: 
-    print("Ports")
+
+    data_rows = []
 
     try:
         with serial.Serial(port_name, BAUD_RATE) as ser:
             time.sleep(2)
             for _ in range(SAMPLES_NO + 1):
                 line = ser.readline()
-
                 try: 
                     string = line.decode()
                     stripped = string.strip()
                     print(stripped)
+                    data_rows.append(stripped + '\n')
 
                 except UnicodeDecodeError:
                     print(f'Couldn decode {line}')
@@ -47,6 +48,12 @@ def read_port(port_name : str) -> None:
         print("No se pudo leer el serial")
         print("Quiza no esta conectado a la compu")
         exit_error()
+        
+    print("Writing csv file")
+    with open("sensor_data.csv", "w") as f:
+        f.writelines(data_rows)
+    print("Finished writting csv file")
+
         
 
 def main():
