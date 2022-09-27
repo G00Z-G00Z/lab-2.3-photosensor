@@ -5,7 +5,7 @@ import serial
 PORT_FILE_NAME = "arduino.port.txt"
 BAUD_RATE = 9600
 SAMPLES_NO = 31
-
+SENSOR_DATA_FILENAME = "sensor_data.csv"
 
 def exit_error():
     sys.exit(1)
