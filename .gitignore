@@ -18,3 +18,4 @@ proteus/*
 serial-reader/*enviroment/
 
 serial-reader/arduino.port.txt
+serial-reader/sensor_data.csv
