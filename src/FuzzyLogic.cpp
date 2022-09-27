@@ -12,17 +12,18 @@ String AmbientLightClass::getName() { return name; }
 
 bool AmbientLightClass::isRangeInClass(float value) { return minValue <= value && value < maxValue; }
 
-template <unsigned int ambientLightClassesNo>
-AmbientLightClassifier<ambientLightClassesNo>::AmbientLightClassifier(AmbientLightClass *arr)
+AmbientLightClassifier::AmbientLightClassifier() : ambientLightClasses(nullptr), size(0)
 {
-    ambientLightClasses = arr;
 }
 
-template <unsigned int ambientLightClassesNo>
-String AmbientLightClassifier<ambientLightClassesNo>::getAmbientClassName(float value)
+AmbientLightClassifier::AmbientLightClassifier(AmbientLightClass *arr, unsigned int size) : ambientLightClasses(arr), size(size)
+{
+}
+
+String AmbientLightClassifier::getAmbientClassName(float value)
 {
 
-    for (size_t i = 0; i < ambientLightClassesNo; i++)
+    for (size_t i = 0; i < size; i++)
     {
         if (ambientLightClasses[i].isRangeInClass(value))
         {

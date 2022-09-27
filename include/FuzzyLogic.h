@@ -20,15 +20,16 @@ namespace FuzzyLogic
         String getName();
     };
 
-    template <unsigned int ambientLightClassesNo>
     class AmbientLightClassifier
     {
 
     private:
-        AmbientLightClass ambientLightClasses[ambientLightClassesNo];
+        AmbientLightClass *ambientLightClasses;
+        unsigned int size;
 
     public:
-        AmbientLightClassifier(AmbientLightClass *arr);
+        AmbientLightClassifier(AmbientLightClass *arr, unsigned int size);
+        AmbientLightClassifier();
         String getAmbientClassName(float value);
     };
 
