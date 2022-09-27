@@ -21,11 +21,9 @@ void DataCollector::printLabels()
 void DataCollector::printSerialData(int distance_cm, RBD::LightSensor &sensor)
 {
 
-    float raw_valuee = sensor.getRawValue();
+    float rawValue = sensor.getRawValue();
 
-    float percent = raw_valuee / 1023.000f;
-
-    float voltage = percent * reference_voltage;
+    float voltage = DataCollector::rawAnalog2voltage(rawValue);
 
     Serial.println(String(distance_cm) + "," + String(voltage, 5));
 }
