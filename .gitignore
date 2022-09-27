@@ -20,3 +20,5 @@ serial-reader/*enviroment/
 serial-reader/arduino.port.txt
 serial-reader/sensor_data.csv
 serial-reader/__pycache__
+
+serial-reader/*.png
