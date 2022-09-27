@@ -3,7 +3,7 @@
 #include <Button.h>
 #include <Led.h>
 #include <RBD_LightSensor.h>
-#include <LiquidCrystal.h>
+#include <DataCollector.h>
 
 #define PIN_LED_PWM 10
 #define BTN_PIN 29
@@ -35,8 +35,9 @@ void setup()
   lcd.home();
   lcd.print("Hola");
 
-  phoresistor.setFloor(980);
-  phoresistor.setCeiling(1020);
+  // phoresistor.setFloor(980);
+  // phoresistor.setCeiling(1020);
+  DataCollector::print_labels();
 }
 
 void loop()
@@ -49,5 +50,8 @@ void loop()
   lcd.print(String(value, 2));
   lcd.setCursor(1, 1);
   lcd.print(String(map(value, 0, 1023, 0, 5)) + "V");
+
+  static int i = 0;
+  DataCollector::print_serial_data(i++, phoresistor);
   delay(1000);
 }
