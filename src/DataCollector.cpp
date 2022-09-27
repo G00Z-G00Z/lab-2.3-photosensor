@@ -7,7 +7,7 @@ using namespace DataCollector;
 
 void DataCollector::print_labels()
 {
-    Serial.println("distance, voltage");
+    Serial.println("distance,voltage");
 }
 
 void DataCollector::print_serial_data(int distance_cm, RBD::LightSensor &sensor)
