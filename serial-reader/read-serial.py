@@ -4,6 +4,7 @@ import serial
 
 PORT_FILE_NAME = "arduino.port.txt"
 BAUD_RATE = 9600
+SAMPLES_NO = 31
 
 
 def exit_error():
@@ -29,26 +30,23 @@ def read_port(port_name : str) -> None:
     print("Ports")
 
     try:
-        ser =  serial.Serial(port_name, BAUD_RATE, timeout=0)
-        time.sleep(2)
-        for _ in range(100):
-            byte_ = ser.readline()
-            if not byte_:
-                continue
-            try: 
-                string = byte_.decode()
-                stripped = string.strip()
-                print(string)
-                print(stripped)
+        with serial.Serial(port_name, BAUD_RATE) as ser:
+            time.sleep(2)
+            for _ in range(SAMPLES_NO + 1):
+                line = ser.readline()
 
-            except UnicodeDecodeError:
-                print(f'Couldn decode {byte_}')
+                try: 
+                    string = line.decode()
+                    stripped = string.strip()
+                    print(stripped)
+
+                except UnicodeDecodeError:
+                    print(f'Couldn decode {line}')
+
     except serial.SerialException:
         print("No se pudo leer el serial")
         print("Quiza no esta conectado a la compu")
         exit_error()
-    finally:
-        ser.close()
         
 
 def main():
