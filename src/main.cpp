@@ -25,6 +25,20 @@ const int rs = 30,
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
+void collectData()
+{
+
+  if (!btn.wasPressed())
+    return;
+
+  DataCollector::get_all_data(phoresistor, btn, lcd, 0, 31);
+  lcd.clear();
+  lcd.home();
+  lcd.print("Terminado !!");
+  delay(3000);
+  lcd.clear();
+}
+
 void setup()
 {
   Serial.begin(9600);
@@ -43,15 +57,5 @@ void setup()
 void loop()
 {
 
-  float value = phoresistor.getValue();
-
-  lcd.clear();
-  lcd.home();
-  lcd.print(String(value, 2));
-  lcd.setCursor(1, 1);
-  lcd.print(String(map(value, 0, 1023, 0, 5)) + "V");
-
-  static int i = 0;
-  DataCollector::print_serial_data(i++, phoresistor);
-  delay(1000);
+  collectData();
 }
