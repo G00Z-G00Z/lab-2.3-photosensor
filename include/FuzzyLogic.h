@@ -4,6 +4,8 @@
 namespace FuzzyLogic
 {
 
+    class AmbientLightClassifier;
+
     class AmbientLightClass
     {
 
@@ -11,6 +13,7 @@ namespace FuzzyLogic
         String name;
         float minValue;
         float maxValue;
+        friend AmbientLightClassifier;
 
     public:
         AmbientLightClass(String name, float minValue, float maxValue);
@@ -30,7 +33,7 @@ namespace FuzzyLogic
     public:
         AmbientLightClassifier(AmbientLightClass *arr, unsigned int size);
         AmbientLightClassifier();
-        String getAmbientClassName(float value);
+        String getAmbientClassName(int value);
     };
 
 };
