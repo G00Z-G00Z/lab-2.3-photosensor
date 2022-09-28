@@ -2,6 +2,7 @@ from utils import file_exists, exit_error
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 
 
 SENSOR_DATA_FILENAME = "sensor_data.csv"
@@ -19,15 +20,18 @@ def main():
     distance = sensor_table.loc[:, "distance"] .to_numpy().reshape(-1,1)
     voltage = sensor_table.loc[:, "voltage"] .to_numpy().reshape(-1,1)
 
-    linear_model = LinearRegression()
-    linear_model.fit(voltage, distance)
+    # Regresion 
+    polyModel = PolynomialFeatures(degree = 2, include_bias=False)
+    poly_features_train = polyModel.fit_transform(voltage)
+    poly_model = LinearRegression()
+    poly_model.fit(poly_features_train, distance)
 
-    distance_predicts = linear_model.predict(voltage)  
-    R2 = linear_model.score(distance, distance_predicts)
+    distance_predicts = poly_model.predict(poly_features_train)  
+    R2 = poly_model.score(poly_features_train, distance)
     print(f"R2 = {R2}")
-    coeffs = linear_model.coef_
+    coeffs = poly_model.coef_
     print(f"Coeefs = {coeffs}")
-    print(f"inter = {linear_model.intercept_}")
+    print(f"inter = {poly_model.intercept_}")
     plt.plot(voltage, distance_predicts)
     plt.savefig("figura.png")
      
