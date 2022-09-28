@@ -48,5 +48,6 @@ void DataCollector::getSamples(RBD::LightSensor &sensor, Buttons::Button &btn, L
             lcd.print("Raw: " + String(rawValue) + "  ");
             delay(100);
         }
+        printSerialData(current_cm, sensor);
     }
 }
