@@ -20,7 +20,7 @@ AmbientLightClassifier::AmbientLightClassifier(AmbientLightClass *arr, unsigned 
 {
 }
 
-String AmbientLightClassifier::getAmbientClassName(float value)
+String AmbientLightClassifier::getAmbientClassName(int value)
 {
 
     for (size_t i = 0; i < size; i++)
@@ -31,5 +31,10 @@ String AmbientLightClassifier::getAmbientClassName(float value)
         }
     }
 
-    return "Error for value: " + String(value, 2);
+    if (value >= ambientLightClasses[size - 1].maxValue)
+    {
+        return ambientLightClasses[size - 1].getName();
+    }
+
+    return ambientLightClasses[0].getName();
 }

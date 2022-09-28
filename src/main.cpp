@@ -30,9 +30,9 @@ const int rs = 30,
 
 FuzzyLogic::AmbientLightClass ambientLightIdentifiers[4] = {
     FuzzyLogic::AmbientLightClass("Dark", 0, 10),
-    FuzzyLogic::AmbientLightClass("Dim", 0, 10),
-    FuzzyLogic::AmbientLightClass("Bright", 0, 10),
-    FuzzyLogic::AmbientLightClass("Blinding", 0, 10)};
+    FuzzyLogic::AmbientLightClass("Dim", 11, 18),
+    FuzzyLogic::AmbientLightClass("Bright", 19, 25),
+    FuzzyLogic::AmbientLightClass("Blinding", 25, 30)};
 
 FuzzyLogic::AmbientLightClassifier classifier(ambientLightIdentifiers, 4u);
 
@@ -74,7 +74,7 @@ void printDistance(long interval_ms, int rawValue)
   if (currentTime - passedTime >= interval)
   {
     float distance = Linear::voltage2distance_cm(DataCollector::rawAnalog2voltage(rawValue));
-    lcd.printDistance(distance);
+    lcd.printDistance(distance < 0 ? 0 : distance);
     passedTime = currentTime;
   }
 }
@@ -82,7 +82,6 @@ void printDistance(long interval_ms, int rawValue)
 void loop()
 {
   collectData();
-
   // Recieve phototransitordata
   int rawValue = photoresitor.getRawValue();
   int percentLight = photoresitor.getPercentValue();
