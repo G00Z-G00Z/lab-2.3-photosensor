@@ -11,8 +11,8 @@
 #define BTN_PIN 29
 #define PHOTORESISTOR_PIN A0
 
-#define PHOTORESISTOR_FLOOR 0
-#define PHOTORESISTOR_CEILING 1023
+#define PHOTORESISTOR_FLOOR 960    // max light
+#define PHOTORESISTOR_CEILING 1023 // total
 
 Buttons::Button btn(BTN_PIN);
 
@@ -44,6 +44,7 @@ static void collectData()
   if (!btn.wasPressed())
     return;
 
+  led.off();
   DataCollector::getSamples(photoresitor, btn, lcd, 0, 31);
   lcd.clear();
   lcd.home();
@@ -61,15 +62,30 @@ void setup()
   photoresitor.setCeiling(PHOTORESISTOR_CEILING);
   DataCollector::printLabels();
 }
-void loop()
+
+void printDistance(long interval_ms, int rawValue)
 {
   using namespace DistanceModel;
+
+  static unsigned int interval = interval_ms;
+  static long passedTime = millis();
+  long currentTime = millis();
+
+  if (currentTime - passedTime >= interval)
+  {
+    float distance = Linear::voltage2distance_cm(DataCollector::rawAnalog2voltage(rawValue));
+    lcd.printDistance(distance);
+    passedTime = currentTime;
+  }
+}
+
+void loop()
+{
   collectData();
 
   // Recieve phototransitordata
   int rawValue = photoresitor.getRawValue();
-  led.setDutyCicle(map(rawValue, 0, 1023, 0, 255));
-  float distance = Linear::voltage2distance_cm(DataCollector::rawAnalog2voltage(rawValue));
-  lcd.printDistance(distance);
-  delay(500);
+  int percentLight = photoresitor.getPercentValue();
+  led.setDutyCicle(map(percentLight, 0, 100, 0, 255));
+  printDistance(1000, rawValue);
 }
