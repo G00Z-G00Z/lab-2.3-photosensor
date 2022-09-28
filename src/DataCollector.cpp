@@ -40,11 +40,13 @@ void DataCollector::getSamples(RBD::LightSensor &sensor, Buttons::Button &btn, L
         lcd.clear();
         lcd.home();
         lcd.print("Tomar para: " + String(current_cm) + "cm");
-        lcd.noCursor();
 
         while (!btn.wasPressed())
         {
+            lcd.setCursor(0, 1);
+            int rawValue = sensor.getRawValue();
+            lcd.print("Raw: " + String(rawValue) + "  ");
+            delay(100);
         }
-        printSerialData(current_cm, sensor);
     }
 }
