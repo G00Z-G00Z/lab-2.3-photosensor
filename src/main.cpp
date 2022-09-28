@@ -71,4 +71,5 @@ void loop()
   led.setDutyCicle(map(rawValue, 0, 1023, 0, 255));
   float distance = Linear::voltage2distance_cm(DataCollector::rawAnalog2voltage(rawValue));
   lcd.printDistance(distance);
+  delay(500);
 }
